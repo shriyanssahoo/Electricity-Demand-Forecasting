@@ -93,21 +93,22 @@ A strict chronological train → validation → test split is used to prevent da
 
 ### 📅 Daily Dataset (Test Set)
 
-| Model          | MAE  | RMSE |  MAPE |
-|----------------|------|------|-------|
-| Random Forest  | 4151 | 5377 | 1.88% |
-| XGBoost        | 4386 | 5646 | 1.97% |
+| Model          | MAE  | RMSE | MAPE |
+|---------------|------|------|------|
+| Random Forest | 4151 | 5377 | 1.88% |
+| XGBoost       | 4386 | 5646 | 1.97% |
 
 ---
 
 ### ⏱️ 15-Min Dataset (Test Set)
 
-| Model         | MAE  | RMSE |  MAPE |
-|---------------|------|------|---=---|
+| Model          | MAE  | RMSE | MAPE |
+|---------------|------|------|------|
 | Random Forest | 1159 | 1526 | 0.58% |
 | XGBoost       | 1121 | 1463 | 0.56% |
 
 ---
+
 
 ## 🔍 Key Insights
 
@@ -118,11 +119,6 @@ A strict chronological train → validation → test split is used to prevent da
 - Deep learning models underperform due to limited data and tuning  
 - High-frequency data (15-min) is easier to predict (MAPE < 1%)  
 
----
-
-## 📁 Project Structure
-
-├── 01_data_collection/ ├── 02_preprocessing/ ├── 03_eda/ ├── 04_modelling/ ├── 05_results/ ├── report/ │   └── final_report.pdf ├── README.md
 
 ---
 
