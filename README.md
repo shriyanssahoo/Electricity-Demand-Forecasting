@@ -1,165 +1,157 @@
-# ⚡ Electricity Demand Forecasting
 
-This project focuses on forecasting electricity demand using both **daily data** and **high-frequency (15-minute interval) time series data**. Multiple modeling approaches were explored, including baseline methods, statistical models, and machine learning techniques.
+# ⚡ Electricity Demand Forecasting  
+### A Comparative Study of Time Series, Machine Learning, and Deep Learning Models
 
----
+This project focuses on forecasting electricity demand for the All-India power grid using two datasets of different temporal resolutions:
+- 📅 Daily Demand Data (Long-term forecasting)
+- ⏱️ 15-Minute Interval Data (Short-term forecasting)
 
-## 📊 Project Overview
-
-The objective of this project is to:
-- Understand electricity demand patterns
-- Build forecasting models at different granularities
-- Compare traditional statistical approaches with modern ML models
-- Identify the best-performing model for each dataset
+We implement and compare a wide range of models — from simple baselines to advanced machine learning and deep learning approaches — to understand what works best for real-world time series forecasting.
 
 ---
 
-## 📁 Datasets Used
+## 📊 Datasets
+
+The data was collected via web scraping from:
+https://grid-india.in/en/
 
 ### 1. Daily Dataset
-- Duration: ~3 years
-- Target: `max_demand_met_mw`
-- Used for long-term forecasting
+- Duration: May 2023 – March 2026  
+- Target: max_demand_met_mw  
+- Use case: Medium to long-term forecasting  
 
-### 2. Time Series Dataset (15-min)
-- Duration: ~1 year
-- Frequency: 15-minute intervals
-- Target: `demand_met_mw`
-- Used for short-term forecasting
-
----
-
-## ⚙️ Feature Engineering
-
-The following features were created:
-
-- **Time-based:**
-  - Day of week, month, hour
-  - Weekend indicator
-
-- **Cyclical encoding:**
-  - `sin` / `cos` transformations
-
-- **Lag features:**
-  - Daily: lag_1, lag_7, lag_30
-  - 15-min: lag_1, lag_96
-
-- **Rolling statistics:**
-  - Mean and standard deviation
-
-- **Event-based:**
-  - Festival indicators (`is_festival`, `is_pre`, `is_post`)
+### 2. 15-Minute Dataset
+- Duration: April 2025 – March 2026  
+- Target: demand_met_mw  
+- Use case: Short-term / real-time forecasting  
 
 ---
 
-## 🔀 Data Splitting Strategy
+## ⚙️ Project Workflow
 
-Time-based split to avoid leakage:
-- Train (~70%)
-- Validation (~15%)
-- Test (~15%)
+The project follows a structured time series pipeline:
 
----
-
-## 📉 Models Implemented
-
-### 1. Baseline Models
-- Mean Model
-- Naive Model
-- Seasonal Naive
-- Drift Model
-- Exponential Smoothing (SES, Holt, Holt-Winters)
+1. Data Collection & Preprocessing  
+2. Exploratory Data Analysis (EDA)  
+3. Feature Engineering  
+4. Model Development  
+5. Validation & Model Selection  
+6. Final Testing on Unseen Data  
 
 ---
 
-### 2. Statistical Models
-- Autoregressive (AR)
-- ARIMA
-- SARIMA
-- SARIMAX
+## 🧠 Models Implemented
+
+### 🔹 Baseline Models
+- Mean Model  
+- Naive Model  
+- Seasonal Naive  
+- Drift Model  
+- Rolling Mean  
+
+### 🔹 Autoregressive Models
+- Linear AR (lag-based regression)
+
+### 🔹 Classical Time Series Models
+- ARIMA  
+- SARIMA  
+- SARIMAX  
+
+### 🔹 Machine Learning Models
+- Random Forest  
+- XGBoost  
+
+### 🔹 Deep Learning Models
+- DLinear  
+- NLinear  
 
 ---
 
-### 3. Machine Learning Models
-- Random Forest
-- XGBoost
-- Linear Regression (tested, later excluded)
+## 📈 Feature Engineering
+
+Key features used:
+- Lag features (lag_1, lag_7, lag_30, lag_96)
+- Rolling statistics (mean, std)
+- Cyclical encodings (sin/cos for time)
+- Calendar features (day, month, weekend)
+- Festival indicators (is_festival, pre/post)
 
 ---
 
-## 📊 Results Summary
+## 📏 Evaluation Metrics
 
-### 🔹 Daily Forecasting
-- Best Models:
-  - Random Forest
-  - XGBoost
-- Performance:
-  - **MAPE ≈ 1.8%**
+All models are evaluated using:
+- MAE (Mean Absolute Error)
+- RMSE (Root Mean Squared Error)
+- MAPE (Mean Absolute Percentage Error)
+
+A strict chronological train → validation → test split is used to prevent data leakage.
 
 ---
 
-### 🔹 15-min Forecasting
-- Best Model:
-  - **XGBoost (Final Winner)**
-- Performance:
-  - **MAPE ≈ 0.56%**
+## 🏆 Final Results
+
+### 📅 Daily Dataset (Test Set)
+
+| Model          | MAE  | RMSE |  MAPE |
+|----------------|------|------|-------|
+| Random Forest  | 4151 | 5377 | 1.88% |
+| XGBoost        | 4386 | 5646 | 1.97% |
+
+---
+
+### ⏱️ 15-Min Dataset (Test Set)
+
+| Model         | MAE  | RMSE |  MAPE |
+|---------------|------|------|---=---|
+| Random Forest | 1159 | 1526 | 0.58% |
+| XGBoost       | 1121 | 1463 | 0.56% |
 
 ---
 
 ## 🔍 Key Insights
 
-- Baseline models perform surprisingly well for short-term forecasting
-- Statistical models struggle with complex and non-linear patterns
-- Machine learning models significantly outperform traditional approaches
-- High-frequency data benefits more from ML due to:
-  - Non-linear dependencies
-  - Strong short-term patterns
+- Machine Learning models outperform all other approaches  
+- Feature engineering plays a critical role in performance  
+- Naive models are strong baselines and hard to beat  
+- Classical models (ARIMA/SARIMA) struggle with complex patterns  
+- Deep learning models underperform due to limited data and tuning  
+- High-frequency data (15-min) is easier to predict (MAPE < 1%)  
 
 ---
 
-## 🧠 Final Conclusion
+## 📁 Project Structure
 
-Machine learning models, especially **XGBoost**, are highly effective for electricity demand forecasting, particularly for high-frequency (15-minute interval) data. These models capture both temporal patterns and non-linear relationships, leading to superior predictive performance.
-
----
-
-## 🚧 Limitations
-
-- No weather or external data used
-- Limited hyperparameter tuning
-- Models rely only on historical patterns
-- Sudden anomalies or external shocks not captured
+├── 01_data_collection/ ├── 02_preprocessing/ ├── 03_eda/ ├── 04_modelling/ ├── 05_results/ ├── report/ │   └── final_report.pdf ├── README.md
 
 ---
 
-## 🚀 Future Work
+## 🚀 How to Run
 
-- Incorporate weather data (temperature, humidity)
-- Try deep learning models (LSTM, Transformers)
-- Perform hyperparameter optimization
-- Build real-time forecasting pipeline
+1. Clone the repository:
 
----
+git clone https://github.com/shriyanssahoo/Electricity-Demand-Forecasting.git cd Electricity-Demand-Forecasting
 
-## 🛠️ Tech Stack
+2. Install dependencies:
 
-- Python
-- Pandas, NumPy
-- Scikit-learn
-- XGBoost
-- Statsmodels
-- Matplotlib / Seaborn
-
----
-
-## 📌 How to Run
-
-```bash
-# Clone the repository
-git clone <your-repo-link>
-
-# Install dependencies
 pip install -r requirements.txt
 
-# Run notebooks
-jupyter notebook
+3. Run notebooks in order:
+
+03_eda → 04_modelling
+
+---
+
+## 📌 Future Work
+
+- Incorporate weather data (temperature, humidity)
+- Hyperparameter tuning (Bayesian optimization)
+- Advanced models (LSTM, TFT, PatchTST)
+- Hybrid models (SARIMA + ML)
+- Real-time deployment pipeline
+
+---
+
+## 📄 License
+
+This project is for academic purposes.
